@@ -275,7 +275,12 @@ static void process_advertisement(const struct zmk_status_adv_data *adv_data, in
     if (adv_data->device_role == ZMK_DEVICE_ROLE_CENTRAL) role_str = "CENTRAL";
     else if (adv_data->device_role == ZMK_DEVICE_ROLE_PERIPHERAL) role_str = "PERIPHERAL";
     else if (adv_data->device_role == ZMK_DEVICE_ROLE_STANDALONE) role_str = "STANDALONE";
+    g_has_data = true;
 
+    snprintf(g_keyboard_name, sizeof(g_keyboard_name), "%s", keyboard_id);
+    snprintf(g_layer_name, sizeof(g_layer_name), "%s", adv_data->active_layer);
+    g_battery = adv_data->battery_level;
+    
     LOG_DBG("Received %s, ID=%08X, Battery=%d%%, Layer=%d",
            role_str, keyboard_id, adv_data->battery_level, adv_data->active_layer);
     
