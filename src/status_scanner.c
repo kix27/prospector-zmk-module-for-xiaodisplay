@@ -213,7 +213,12 @@ static void process_advertisement_with_name(const struct zmk_status_adv_data *ad
     keyboards[index].last_seen = now;
     keyboards[index].rssi = rssi;
     memcpy(&keyboards[index].data, adv_data, sizeof(struct zmk_status_adv_data));
+    g_has_data = true;
 
+    snprintf(g_keyboard_name, sizeof(g_keyboard_name), "%s", device_name);
+    snprintf(g_layer_name, sizeof(g_layer_name), "%s", adv_data->layer_name);
+    g_battery = adv_data->battery_level;
+    
     // Store BLE address for unique identification
     memcpy(keyboards[index].ble_addr, addr->a.val, 6);
     keyboards[index].ble_addr_type = addr->type;
@@ -275,11 +280,6 @@ static void process_advertisement(const struct zmk_status_adv_data *adv_data, in
     if (adv_data->device_role == ZMK_DEVICE_ROLE_CENTRAL) role_str = "CENTRAL";
     else if (adv_data->device_role == ZMK_DEVICE_ROLE_PERIPHERAL) role_str = "PERIPHERAL";
     else if (adv_data->device_role == ZMK_DEVICE_ROLE_STANDALONE) role_str = "STANDALONE";
-    g_has_data = true;
-
-    snprintf(g_keyboard_name, sizeof(g_keyboard_name), "%s", keyboard_id);
-    snprintf(g_layer_name, sizeof(g_layer_name), "%s", adv_data->active_layer);
-    g_battery = adv_data->battery_level;
     
     LOG_DBG("Received %s, ID=%08X, Battery=%d%%, Layer=%d",
            role_str, keyboard_id, adv_data->battery_level, adv_data->active_layer);
@@ -722,23 +722,23 @@ int zmk_status_scanner_get_primary_keyboard(void) {
 SYS_INIT(zmk_status_scanner_init, APPLICATION, 99);
 
 bool prospector_status_has_data(void) {
-    //return g_has_data;
-    return true;
+    return g_has_data;
+    //return true;
 }
 
 const char *prospector_status_get_keyboard_name(void) {
-    //return g_keyboard_name;
-    return "MONA2 TEST";
+    return g_keyboard_name;
+    //return "MONA2 TEST";
 }
 
 const char *prospector_status_get_layer_name(void) {
-    //return g_layer_name;
-    return "BASE";
+    return g_layer_name;
+    //return "BASE";
 }
 
 uint8_t prospector_status_get_battery(void) {
-    //return g_battery;
-    return 88;
+    return g_battery;
+    //return 88;
 
 }
 
