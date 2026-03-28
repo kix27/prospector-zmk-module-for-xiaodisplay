@@ -12,7 +12,10 @@ endif()
 
 # Add scanner mode support
 if(CONFIG_PROSPECTOR_MODE_SCANNER)
-        target_sources(app PRIVATE src/status_scanner.c)
+    target_sources(app PRIVATE
+        src/status_scanner.c
+        src/scanner_msg_stub.c
+    )
 endif()
 
 # DISABLED FOR DEBUG: Custom display/LVGL drivers may be causing boot issues
