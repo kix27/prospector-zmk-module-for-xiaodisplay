@@ -18,7 +18,12 @@
 // Scanner stub functions for thread-safe display updates
 // Include path assumes build from zmk-config-prospector
 #include "../boards/shields/prospector_scanner/src/scanner_stub.h"
+#include "prospector_status.h"
 
+static bool g_has_data = false;
+static char g_keyboard_name[32] = "WAITING FOR MONA2";
+static char g_layer_name[16] = "---";
+static uint8_t g_battery = 0;
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 // External function to trigger high-priority display update (defined in scanner_display.c)
@@ -710,5 +715,21 @@ int zmk_status_scanner_get_primary_keyboard(void) {
 
 // Initialize on system startup - use later priority to ensure BT is ready
 SYS_INIT(zmk_status_scanner_init, APPLICATION, 99);
+
+bool prospector_status_has_data(void) {
+    return g_has_data;
+}
+
+const char *prospector_status_get_keyboard_name(void) {
+    return g_keyboard_name;
+}
+
+const char *prospector_status_get_layer_name(void) {
+    return g_layer_name;
+}
+
+uint8_t prospector_status_get_battery(void) {
+    return g_battery;
+}
 
 #endif // CONFIG_PROSPECTOR_MODE_SCANNER
