@@ -722,19 +722,24 @@ int zmk_status_scanner_get_primary_keyboard(void) {
 SYS_INIT(zmk_status_scanner_init, APPLICATION, 99);
 
 bool prospector_status_has_data(void) {
-    return g_has_data;
+    //return g_has_data;
+    return true;
 }
 
 const char *prospector_status_get_keyboard_name(void) {
-    return g_keyboard_name;
+    //return g_keyboard_name;
+    return "MONA2 TEST";
 }
 
 const char *prospector_status_get_layer_name(void) {
-    return g_layer_name;
+    //return g_layer_name;
+    return "BASE";
 }
 
 uint8_t prospector_status_get_battery(void) {
-    return g_battery;
+    //return g_battery;
+    return 88;
+
 }
 
 #endif // CONFIG_PROSPECTOR_MODE_SCANNER
