@@ -224,6 +224,12 @@ static void process_advertisement_with_name(const struct zmk_status_adv_data *ad
     g_peripheral_battery[0] = adv_data->peripheral_battery[0];
     g_peripheral_battery[1] = adv_data->peripheral_battery[1];
     g_peripheral_battery[2] = adv_data->peripheral_battery[2];
+
+    printk("MAIN=%d P0=%d P1=%d P2=%d\n",
+       adv_data->battery_level,
+       adv_data->peripheral_battery[0],
+       adv_data->peripheral_battery[1],
+       adv_data->peripheral_battery[2]);
     
     // Store BLE address for unique identification
     memcpy(keyboards[index].ble_addr, addr->a.val, 6);
