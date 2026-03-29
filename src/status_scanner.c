@@ -225,6 +225,7 @@ static void process_advertisement_with_name(const struct zmk_status_adv_data *ad
     g_peripheral_battery[0] = adv_data->peripheral_battery[0];
     g_peripheral_battery[1] = adv_data->peripheral_battery[1];
     g_peripheral_battery[2] = adv_data->peripheral_battery[2];
+    g_active_layer = adv_data->active_layer;
 
     // Store BLE address for unique identification
     memcpy(keyboards[index].ble_addr, addr->a.val, 6);
@@ -754,5 +755,7 @@ uint8_t prospector_status_get_peripheral_battery(uint8_t index) {
     }
     return g_peripheral_battery[index];
 }
-
+uint8_t prospector_status_get_active_layer(void) {
+    return g_active_layer;
+}
 #endif // CONFIG_PROSPECTOR_MODE_SCANNER
