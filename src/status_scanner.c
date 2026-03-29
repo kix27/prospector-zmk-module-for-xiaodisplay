@@ -24,6 +24,7 @@ static bool g_has_data = false;
 static char g_keyboard_name[32] = "WAITING FOR MONA2";
 static char g_layer_name[16] = "---";
 static uint8_t g_battery = 0;
+static uint8_t g_peripheral_battery[3] = {0, 0, 0};
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 // External function to trigger high-priority display update (defined in scanner_display.c)
@@ -213,11 +214,16 @@ static void process_advertisement_with_name(const struct zmk_status_adv_data *ad
     keyboards[index].last_seen = now;
     keyboards[index].rssi = rssi;
     memcpy(&keyboards[index].data, adv_data, sizeof(struct zmk_status_adv_data));
+    // Update RoundDisplay status
     g_has_data = true;
 
     snprintf(g_keyboard_name, sizeof(g_keyboard_name), "%s", device_name);
     snprintf(g_layer_name, sizeof(g_layer_name), "%s", adv_data->layer_name);
     g_battery = adv_data->battery_level;
+
+    g_peripheral_battery[0] = adv_data->peripheral_battery[0];
+    g_peripheral_battery[1] = adv_data->peripheral_battery[1];
+    g_peripheral_battery[2] = adv_data->peripheral_battery[2];
     
     // Store BLE address for unique identification
     memcpy(keyboards[index].ble_addr, addr->a.val, 6);
@@ -740,6 +746,12 @@ uint8_t prospector_status_get_battery(void) {
     return g_battery;
     //return 88;
 
+}
+uint8_t prospector_status_get_peripheral_battery(uint8_t index) {
+    if (index >= 3) {
+        return 0;
+    }
+    return g_peripheral_battery[index];
 }
 
 #endif // CONFIG_PROSPECTOR_MODE_SCANNER
