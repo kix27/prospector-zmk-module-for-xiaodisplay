@@ -25,6 +25,7 @@ static char g_keyboard_name[32] = "WAITING FOR MONA2";
 static char g_layer_name[16] = "---";
 static uint8_t g_battery = 0;
 static uint8_t g_peripheral_battery[3] = {0, 0, 0};
+static uint8_t g_active_layer = 0;
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 // External function to trigger high-priority display update (defined in scanner_display.c)
